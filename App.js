@@ -82,7 +82,7 @@ export default class App extends Component {
       remote: ''
     }
 
-    socket = io('https://knowledgetalk.co.kr:5501/SignalServer', {
+    socket = io('https://knowledgetalk.co.kr:7511/SignalServer', {
       secure: true,
       reconnect: true,
       rejectUnauthorized: false,
@@ -98,7 +98,7 @@ export default class App extends Component {
       console.log(err)
     })
 
-    socket.on('gigagenie', this.handleSocketMessage)
+    socket.on('knowledgetalk', this.handleSocketMessage)
   }
 
   handleSocketMessage = message => {
@@ -141,8 +141,7 @@ export default class App extends Component {
   }
 
   forceLogin = () => {
-    console.log('login')
-    this.send({
+    console.log('login', {
       eventOp: 'Login',
       reqNo: '1',
       reqDate: '1',
@@ -151,6 +150,16 @@ export default class App extends Component {
         'e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8',
       deviceType: 'pc',
       serviceType: 'multi'
+    })
+    this.send({
+      eventOp: 'Login',
+      reqNo: '1',
+      reqDate: '1',
+      userId: 't1',
+      userPw:
+        'e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8',
+      deviceType: 'pc'
+      // serviceType: 'multi'
     })
   }
 
@@ -269,7 +278,7 @@ export default class App extends Component {
   }
 
   send = message => {
-    socket.emit('gigagenie', message)
+    socket.emit('knowledgetalk', message)
   }
 
   render() {
@@ -289,12 +298,12 @@ export default class App extends Component {
             <RTCView streamURL={remote} style={styles.local} zOrder={10} />
           ) : null}
 
-          <TouchableHighlight
+          {/* <TouchableHighlight
             style={styles.button}
             onPress={this.call.bind(this, 't2')}
           >
             <Text> 전화걸기 (t2) </Text>
-          </TouchableHighlight>
+          </TouchableHighlight> */}
           <TouchableHighlight
             disabled={!this.state.call.invite}
             style={styles.button}
@@ -303,13 +312,13 @@ export default class App extends Component {
             <Text> 전화받기 </Text>
           </TouchableHighlight>
 
-          <TouchableHighlight
+          {/* <TouchableHighlight
             disabled={!this.state.call.invite}
             style={styles.button}
             onPress={this.accept}
           >
             <Text> 전화끊기 </Text>
-          </TouchableHighlight>
+          </TouchableHighlight> */}
         </View>
       </View>
     )
